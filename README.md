@@ -1,5 +1,5 @@
 # ReactTutorialGame
-the game developed in React tutorial
+This game is developed by following the React tutorial(https://reactjs.org/tutorial/tutorial.html). Then I makes some improvements.
 
 # Instructions
 
