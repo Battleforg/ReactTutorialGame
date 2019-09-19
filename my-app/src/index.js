@@ -43,6 +43,40 @@ class Board extends React.Component {
   }
 }
 
+class Clock extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date()
+    };
+  }
+
+  componentDidMount() {
+    this.timeID = setInterval(() => {
+      this.tick()
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timeID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Clock is ticking.</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}</h2>
+      </div>
+    );
+  }
+}
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -114,6 +148,7 @@ class Game extends React.Component {
 
     return (
       <div className="game">
+        <Clock />
         <div className="game-board">
           <Board 
           squares={current.squares}
@@ -125,6 +160,7 @@ class Game extends React.Component {
           <ol>{moves}</ol>
         </div>
       </div>
+      
     );
   }
 }
