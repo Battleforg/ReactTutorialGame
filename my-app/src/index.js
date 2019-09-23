@@ -14,36 +14,43 @@ class Board extends React.Component {
 
   renderSquare(i) {
     return (
-      <Square 
-      value={this.props.squares[i]} 
-      onClick={() => this.props.onClick(i)}
-    />);
+      <Square
+        value={this.props.squares[i]}
+        onClick={() => this.props.onClick(i)}
+        key={i}
+      />);
   }
 
-  render() {
+  renderSquareRow(rowIndex) {
+    let row = [];
+    for (let i = rowIndex; i < rowIndex + 3; i++) {
+      row.push(this.renderSquare(i));
+    }
+
     return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+      <div className="board-row" key={Math.random() * 30}>
+        {row}
       </div>
     );
   }
+
+  render() {
+    let rows = [];
+
+    for (let i = 0; i < 3; i++) {
+      rows.push(this.renderSquareRow(i * 3));
+    }
+
+    return (
+      <div>
+        {rows}
+      </div>
+    );
+  }
+
 }
 
-class Clock extends React.Component{
+class Clock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -124,19 +131,19 @@ class Game extends React.Component {
       const desc = move ?
         'Go to move #' + move + ' at ' + step.location :
         'Go to game start';
-        if (move === this.state.stepNumber) {
-          return (
-            <li key={move}>
-              <button onClick={() => this.jumpTo(move)}><b>{desc}</b></button>
-            </li>
-          );
-        } else {
-          return (
-            <li key={move}>
-              <button onClick={() => this.jumpTo(move)}>{desc}</button>
-            </li>
-          );
-        }
+      if (move === this.state.stepNumber) {
+        return (
+          <li key={move}>
+            <button onClick={() => this.jumpTo(move)}><b>{desc}</b></button>
+          </li>
+        );
+      } else {
+        return (
+          <li key={move}>
+            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          </li>
+        );
+      }
     });
 
     let status;
@@ -150,9 +157,9 @@ class Game extends React.Component {
       <div className="game">
         <Clock />
         <div className="game-board">
-          <Board 
-          squares={current.squares}
-          onClick={(i) => this.handleClick(i)}
+          <Board
+            squares={current.squares}
+            onClick={(i) => this.handleClick(i)}
           />
         </div>
         <div className="game-info">
@@ -160,7 +167,7 @@ class Game extends React.Component {
           <ol>{moves}</ol>
         </div>
       </div>
-      
+
     );
   }
 }
@@ -187,7 +194,7 @@ function calculateWinner(squares) {
 
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
-    if (squares[a] && 
+    if (squares[a] &&
       squares[a] === squares[b] &&
       squares[a] === squares[c]) {
       return squares[a];
