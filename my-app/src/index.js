@@ -88,6 +88,7 @@ class Clock extends React.Component {
 class Game extends React.Component {
   constructor(props) {
     super(props);
+    this.handleToggleMoveOrder = this.handleToggleMoveOrder.bind(this);
     this.state = {
       history: [{
         squares: Array(9).fill(null),
@@ -95,7 +96,15 @@ class Game extends React.Component {
       }],
       xIsNext: true,
       stepNumber: 0,
+      isAscending: true,
     };
+
+  }
+
+  handleToggleMoveOrder() {
+    this.setState({
+      isAscending: !this.state.isAscending
+    });
   }
 
   handleClick(i) {
@@ -146,6 +155,9 @@ class Game extends React.Component {
         );
       }
     });
+    if (!this.state.isAscending) {
+      moves.reverse();
+    }
 
     let status;
     if (winnerInfo) {
@@ -153,6 +165,7 @@ class Game extends React.Component {
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
+
 
     return (
       <div className="game">
@@ -165,6 +178,7 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
+          <button onClick={this.handleToggleMoveOrder}>{this.state.isAscending? 'Descending' : 'Ascending'}</button>
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
