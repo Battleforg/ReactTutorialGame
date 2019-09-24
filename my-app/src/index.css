@@ -49,3 +49,8 @@ ol, ul {
   margin-left: 20px;
 }
 
+
+.winner-square {
+  background: yellow;
+  border: 1px solid #999;
+}
